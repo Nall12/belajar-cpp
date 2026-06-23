@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Lyrics Typewriter</title>
+
+<style>
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+    }
+
+    body{
+        background:black;
+        color:#ffb6d9;
+        font-family: Consolas, monospace;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        height:100vh;
+        overflow:hidden;
+    }
+
+    .container{
+        width:90%;
+        max-width:700px;
+        padding:30px;
+        border:2px solid #ff8fc7;
+        border-radius:20px;
+        box-shadow:0 0 25px #ff8fc7;
+        background:rgba(255,255,255,0.02);
+    }
+
+    .title{
+        text-align:center;
+        margin-bottom:25px;
+        font-size:22px;
+        color:#ffcce5;
+        text-shadow:0 0 10px #ff8fc7;
+    }
+
+    .line{
+        font-size:28px;
+        margin:14px 0;
+        white-space:pre-wrap;
+    }
+
+    .cursor{
+        display:inline-block;
+        animation:blink .7s infinite;
+    }
+
+    @keyframes blink{
+        50%{
+            opacity:0;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="title">♪ Jatuh Suka - Tulus ♪</div>
+    <div id="lyrics"></div>
+</div>
+
+<script>
+const lyrics = [
+    {
+        text: "Bila kau berkenan",
+        delay: 80
+    },
+    {
+        text: "Biarkanku di sampingmu",
+        delay: 80
+    },
+    {
+        text: "Berkuranglah satu jiwa yang sepi",
+        delay: 65
+    },
+    {
+        text: "Ini semua bukan salahmu",
+        delay: 80
+    },
+    {
+        text: "Punya magis perekat",
+        delay: 80
+    },
+    {
+        text: "Yang sekuat itu",
+        delay: 90
+    },
+    {
+        text: "Dari lahir sudah begitu",
+        delay: 80
+    }
+];
+
+const container = document.getElementById("lyrics");
+
+function sleep(ms){
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function typeLine(text, speed){
+
+    const line = document.createElement("div");
+    line.classList.add("line");
+
+    container.appendChild(line);
+
+    for(let i = 0; i < text.length; i++){
+
+        line.innerHTML =
+            text.substring(0, i + 1) +
+            '<span class="cursor">|</span>';
+
+        await sleep(speed);
+    }
+
+    line.innerHTML = text;
+
+    await sleep(700);
+}
+
+async function startLyrics(){
+
+    for(const lyric of lyrics){
+        await typeLine(lyric.text, lyric.delay);
+    }
+}
+
+startLyrics();
+</script>
+
+</body>
+</html>
